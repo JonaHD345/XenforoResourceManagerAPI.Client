@@ -1,8 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>XenforoResourceManagerAPI.Client</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>JonaHD345</Authors>
+    <Description>A strongly typed .NET wrapper for the XenForo Resource Manager API exposed by SpigotMC.</Description>
+    <PackageTags>xenforo;resource-manager;spigotmc;api;client;dotnet</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>

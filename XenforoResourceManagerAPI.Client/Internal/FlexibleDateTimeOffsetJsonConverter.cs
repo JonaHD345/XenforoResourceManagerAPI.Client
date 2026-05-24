@@ -42,6 +42,21 @@ namespace XenforoResourceManagerAPI.Client
         }
       }
 
+      if (reader.TokenType == JsonToken.Date)
+      {
+        if (reader.Value is DateTimeOffset dateTimeOffset)
+        {
+          return dateTimeOffset;
+        }
+
+        if (reader.Value is DateTime dateTime)
+        {
+          return dateTime.Kind == DateTimeKind.Unspecified
+            ? new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Utc))
+            : new DateTimeOffset(dateTime);
+        }
+      }
+
       if (reader.TokenType == JsonToken.Integer)
       {
         var unixTimestamp = Convert.ToInt64(reader.Value, CultureInfo.InvariantCulture);

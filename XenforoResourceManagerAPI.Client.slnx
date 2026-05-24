@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="XenforoResourceManagerAPI.Client.Tests/XenforoResourceManagerAPI.Client.Tests.csproj" Id="c7bd33c2-cf13-410d-bafa-e0de83283912" />
   <Project Path="XenforoResourceManagerAPI.Client/XenforoResourceManagerAPI.Client.csproj" />
 </Solution>

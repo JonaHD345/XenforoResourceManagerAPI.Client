@@ -8,7 +8,7 @@
     <PackageTags>xenforo;resource-manager;spigotmc;api;client;dotnet</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<RepositoryUrl>https://github.com/JonaHD345/XenforoResourceManagerAPI.NET</RepositoryUrl>
+	<RepositoryUrl>https://github.com/JonaHD345/XenforoResourceManagerAPI.Client</RepositoryUrl>
 
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>

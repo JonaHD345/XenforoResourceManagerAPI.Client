@@ -59,13 +59,16 @@ namespace XenforoResourceManagerAPI.Client.Tests
 
     public string? Accept { get; private set; }
 
+    public string? UserAgent { get; private set; }
+
     public static RequestSnapshot From(HttpRequestMessage request)
     {
       return new RequestSnapshot
       {
         Method = request.Method,
         RequestUri = request.RequestUri,
-        Accept = string.Join(",", request.Headers.Accept.Select(FormatHeader))
+        Accept = string.Join(",", request.Headers.Accept.Select(FormatHeader)),
+        UserAgent = string.Join(" ", request.Headers.UserAgent.Select(header => header.ToString()))
       };
     }
 

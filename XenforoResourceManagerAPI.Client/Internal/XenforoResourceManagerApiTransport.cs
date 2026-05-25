@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +13,9 @@ namespace XenforoResourceManagerAPI.Client
 {
   internal sealed class XenforoResourceManagerApiTransport : IDisposable
   {
+    private const string DefaultUserAgentProductName = "XenforoResourceManagerAPI.Client";
+    private const string DefaultUserAgentProductVersion = "1.0.1";
+    private const string DefaultUserAgentComment = "(+https://github.com/JonaHD345/XenforoResourceManagerAPI.NET)";
     private const string EndpointPath = "index.php";
 
     private readonly HttpClient _httpClient;
@@ -70,6 +74,7 @@ namespace XenforoResourceManagerAPI.Client
       using (var request = new HttpRequestMessage(method, requestPath))
       {
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        AddDefaultUserAgent(request);
 
         using (var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false))
         {
@@ -107,6 +112,17 @@ namespace XenforoResourceManagerAPI.Client
           }
         }
       }
+    }
+
+    private void AddDefaultUserAgent(HttpRequestMessage request)
+    {
+      if (_httpClient.DefaultRequestHeaders.UserAgent.Any())
+      {
+        return;
+      }
+
+      request.Headers.UserAgent.Add(new ProductInfoHeaderValue(DefaultUserAgentProductName, DefaultUserAgentProductVersion));
+      request.Headers.UserAgent.Add(new ProductInfoHeaderValue(DefaultUserAgentComment));
     }
 
     internal static KeyValuePair<string, string?> CreateParameter(string name, string? value)

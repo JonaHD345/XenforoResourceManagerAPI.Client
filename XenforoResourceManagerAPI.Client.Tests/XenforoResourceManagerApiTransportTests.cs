@@ -140,9 +140,34 @@ namespace XenforoResourceManagerAPI.Client.Tests
       Assert.Equal(HttpMethod.Get, request.Method);
       Assert.Equal("/api/index.php?action=getResource&id=5", request.RequestUri?.PathAndQuery);
       Assert.Equal("application/json", request.Accept);
+      Assert.Equal("XenforoResourceManagerAPI.Client/1.0.1 (+https://github.com/JonaHD345/XenforoResourceManagerAPI.NET)", request.UserAgent);
       Assert.True(Assert.Single(handler.CancellationTokens).CanBeCanceled);
       Assert.Equal(5, resource.Id);
       Assert.Equal("Transport Resource", resource.Title);
+    }
+
+    [Fact]
+    public async Task SendAsync_WithHttpClientUserAgent_KeepsCustomUserAgent()
+    {
+      // Arrange
+      var handler = new TestHttpMessageHandler((_, _) => TestHttpMessageHandler.CreateJsonResponse("{\"id\":5,\"title\":\"Transport Resource\"}"));
+      using var httpClient = new HttpClient(handler);
+      httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("CustomClient/2.0");
+      using var transport = new XenforoResourceManagerApiTransport(
+        httpClient,
+        new XenforoResourceManagerApiClientOptions { BaseAddress = new Uri("https://example.test/api") },
+        false);
+
+      // Act
+      await transport.SendAsync<Resource>(
+        HttpMethod.Get,
+        "getResource",
+        CancellationToken.None,
+        XenforoResourceManagerApiTransport.CreateParameter("id", "5"));
+
+      // Assert
+      var request = Assert.Single(handler.Requests);
+      Assert.Equal("CustomClient/2.0", request.UserAgent);
     }
 
     [Fact]
